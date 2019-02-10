@@ -20,7 +20,7 @@ const io = socket(server);
 // When a new connection occurs between our server and client
 io.on('connection', (socket) => {
     chatListener(io, socket);
-})
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
