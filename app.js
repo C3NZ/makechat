@@ -10,6 +10,8 @@ const socket = require('socket.io');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 
+const chatListener = require('./sockets/chat');
+
 // App configurations
 const app = express();
 const server = http.Server(app);
@@ -17,7 +19,7 @@ const io = socket(server);
 
 // When a new connection occurs between our server and client
 io.on('connection', (socket) => {
-    console.log("NEW USER CONNECTED");
+    chatListener(io, socket);
 })
 
 // view engine setup
