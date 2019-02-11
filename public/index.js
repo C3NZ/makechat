@@ -32,7 +32,9 @@ $(document).ready(() => {
             const msgData = {
                 sender: currentUser,
                 message,
-            }
+            };
+
+            // Send the msgData to the server and clear the chat
             socket.emit('new message', msgData);
             $('#chatInput').val('');
         }
@@ -56,10 +58,20 @@ $(document).ready(() => {
         `);
     });
 
+    // Handle when all the online users are being sent to the client
     socket.on('get online users', (onlineUsers) => {
         for(username in onlineUsers) {
             console.log(username);
             $('.usersOnline').append(`<p class="userOnline">${username}</p>`)
+        }
+    });
+
+    // Handle when a user leaves the channel
+    socket.on('user has left', (onlineUsers) => {
+        $('.usersOnline').empty();
+
+        for(username in onlineUsers) {
+            $('.usersOnline').append(`<p class="userOnline">${username}</p>`);
         }
     })
 })
