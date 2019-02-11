@@ -69,6 +69,28 @@ $(document).ready(() => {
         `);
     });
 
+    // Handle a new channel being created
+    socket.on('new channel', (newChannel) => {
+        $('.channels').append(`<div class="channel">${newChannel}</div>`);
+    });
+
+    socket.on('user changed channel', (data) => {
+        $('.channelCurrent').addClass('channel');
+        $('.channelCurrent').removeClass('channelCurrent');
+        $(`.channel:contains('${data.channel}')`).addClass('channelCurrent');
+        $('.channelCurrent').removeClass('channel');
+        $('.message').remove();
+
+        data.messages.forEach((message) => {
+            $('.messageContainer').append(`
+                <div class="message">
+                    <p class="messageUser">${message.sender}: </p>
+                    <p class="messageText">${message.message}</p>
+                </div>
+            `);
+        });
+    });
+
     // Handle when all the online users are being sent to the client
     socket.on('get online users', (onlineUsers) => {
         for(username in onlineUsers) {
