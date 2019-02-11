@@ -19,10 +19,11 @@ const io = socket(server);
 
 // When a new connection occurs between our server and client
 const onlineUsers = {};
+const channels = { General: [] }
 
 io.on('connection', (socket) => {
     socket.emit('get online users', onlineUsers);
-    chatListener(io, socket, onlineUsers);
+    chatListener(io, socket, onlineUsers, channels);
 });
 
 // view engine setup
