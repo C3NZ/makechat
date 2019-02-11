@@ -4,3 +4,23 @@ block content
     form.usernameForm()
         input#usernameInput(placeholder="Username")
         button#createUserBtn() Join chat
+
+    div.mainContainer()
+        div.channelsAndUsersOnlineContainer()
+            h1.brand() Make Chat
+            div.channels
+                h2.channelsLabel() Channels
+                div.newChannelForm
+                    input#newChannelInput(placeholder='New Channel')
+                    button#newChannelBtn() Create
+                    div.channelCurrent() General
+            h2() Online Users
+            div.usersOnline()
+        div.chatContainer()
+            div.chatContainerFluid()
+                div.messageContainer()
+                    h2() Messages
+                div.textChatDivide()
+                    div.chatBox()
+                        textarea#chatInput(placeholder='Type a message')
+                        button.btn#sendChatBtn() Send
