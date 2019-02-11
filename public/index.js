@@ -26,13 +26,16 @@ $(document).ready(() => {
     // Send a new chat
     $('#sendChatBtn').click((e) => {
         e.preventDefault();
-
+        
+        const channel = $('.channelCurrent').text();
         const message = $('#chatInput').val();
 
         if (message.length > 0) {
+            // Package all the message data together
             const msgData = {
                 sender: currentUser,
                 message,
+                channel,
             };
 
             // Send the msgData to the server and clear the chat
@@ -61,12 +64,15 @@ $(document).ready(() => {
 
     // Handle when a new message is sent
     socket.on('new message', (data) => {
-        $('.messageContainer').append(`
-            <div class="message">
-                <p class="messageUser">${data.sender}: </p>
-                <p class="messageText">${data.message}</p>
-            </div>
-        `);
+        const currentChannel = $('.channelCurrent').text();
+        if (currentChannel === data.channel) {
+            $('.messageContainer').append(`
+                <div class="message">
+                    <p class="messageUser">${data.sender}: </p>
+                    <p class="messageText">${data.message}</p>
+                </div>
+            `);
+        }
     });
 
     // Handle a new channel being created
