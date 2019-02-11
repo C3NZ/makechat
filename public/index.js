@@ -14,8 +14,8 @@ $(document).ready(() => {
 
         // Make sure that the user has entered something for a name
         if (username.length > 0) {
+            //Register the new user and then send a request for all users
             socket.emit('new user', username);
-
             // handle the users successful login
             currentUser = username;
             $('.usernameForm').remove();
@@ -54,5 +54,12 @@ $(document).ready(() => {
                 <p class="messageText">${data.message}</p>
             </div>
         `);
+    });
+
+    socket.on('get online users', (onlineUsers) => {
+        for(username in onlineUsers) {
+            console.log(username);
+            $('.usersOnline').append(`<p class="userOnline">${username}</p>`)
+        }
     })
 })
