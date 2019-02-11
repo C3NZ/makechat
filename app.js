@@ -18,8 +18,11 @@ const server = http.Server(app);
 const io = socket(server);
 
 // When a new connection occurs between our server and client
+const onlineUsers = {};
+
 io.on('connection', (socket) => {
-    chatListener(io, socket);
+    socket.emit('get online users', onlineUsers);
+    chatListener(io, socket, onlineUsers);
 });
 
 // view engine setup
