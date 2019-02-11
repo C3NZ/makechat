@@ -22,7 +22,8 @@ $(document).ready(() => {
             $('.mainContainer').css('display', 'flex');
         }
     });
-    
+
+    // Send a new chat
     $('#sendChatBtn').click((e) => {
         e.preventDefault();
 
@@ -39,6 +40,16 @@ $(document).ready(() => {
             $('#chatInput').val('');
         }
     })
+
+    // Create a new channel
+    $('#newChannelBtn').click(() => {
+        const newChannel = $('#newChannelInput').val();
+
+        if (newChannel.length > 0) {
+            socket.emit('new channel', newChannel);
+            $('#newChannelInput').val('');
+        }
+    });
 
     // Handle when a new user joins the chat
     socket.on('new user', (username) => {

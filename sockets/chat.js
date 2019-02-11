@@ -24,6 +24,10 @@ module.exports = (io, socket, onlineUsers) => {
         io.emit('new message', data);
     });
 
+    socket.on('new channel', (newChannel) => {
+        console.log(newChannel);
+    })
+
     // Send all the online users to the client
     socket.on('get online users', () => {
         socket.emit('get online users', onlineUsers);
