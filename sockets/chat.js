@@ -24,8 +24,14 @@ module.exports = (io, socket, onlineUsers) => {
         io.emit('new message', data);
     });
 
-    // Serve the user all online users
+    // Send all the online users to the client
     socket.on('get online users', () => {
         socket.emit('get online users', onlineUsers);
-    })
+    });
+
+    // Handle when a user disconnects from a server
+    socket.on('disconnect', () => {
+        delete onlineUsers[socket.username];
+        io.emit('user has left', onlineUsers);
+    });
 }
