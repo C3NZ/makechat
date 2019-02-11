@@ -12,8 +12,10 @@ module.exports = (io, socket, onlineUsers, channels) => {
         onlineUsers[username] = socket.id;
         socket.username = username;
 
+        // Join the new user into the general channel
+        socket.join('General');
         console.log(`${username} has joined the chat!`);
-
+        
         // Send the username to all clients currently connected
         io.emit('new user', username)
     });
@@ -21,7 +23,7 @@ module.exports = (io, socket, onlineUsers, channels) => {
     // Handle a new message being sent
     socket.on('new message', (data) => {
         console.log(`${data.sender}: ${data.message}`)
-        io.emit('new message', data);
+        io.to(data.channel).emit('new message', data);
     });
 
     // Handle the creation of a new channel
@@ -41,7 +43,7 @@ module.exports = (io, socket, onlineUsers, channels) => {
             messages: channels[newChannel],
         }
 
-        //  
+        // inform the client that the channel was updated
         socket.emit('user changed channel', channelData);
     })
 
